@@ -17,40 +17,64 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById("countryName").innerHTML=lng;
 });
 */
-
-function test() {
   
-  function getUserLocation(callback) {
+function getWeatherCurrentLocation() {
 
-    function success(position) {
-      
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
+  function getCityName(latitude, longitude) {
 
-      callback(latitude);
-    }
+    const KEY = 'AIzaSyCl8xuKwal-sSnAXAvGzjlhfG--HT_m57Q';
+    url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${KEY}`;
+    // GET Request.
+    fetch(url)
+    // Handle success
+    .then(response => response.json())  // convert to json
+    .then(json => {
+      console.log(json)
+      part = json.results[0].address_components;
+      console.log("Part 0: ", part);
+      for (var i = 0; i<part.length; i++) {
+        var current = part[i];
+        console.log("current: ", current);
+        if (current.types.includes("postal_town")) {
+          var cityName = current.long_name;
+          console.log(cityName);
+          document.getElementById("cityName").innerHTML=cityName.toUpperCase();
+        }
+        if (part[i].types.includes("country")) {
+          var countryName = current.long_name;
+          console.log(countryName);
+          document.getElementById("countryName").innerHTML=countryName.toUpperCase();
+        }
+      }
 
-    function error() {
-      var locationError = 'Unable to retrieve your location';
-      console.log(locationError);
-    }
+    })    //print data to console
+    .catch(err => console.log('Request Failed', err)); // Catch errors
+  }
 
-    if(!navigator.geolocation) {
-      var unsupportedError = 'Geolocation is not supported by your browser';
-      console.log(unsupportedError);
-    } else {
-      //status.textContent = 'Locating…';
-      navigator.geolocation.getCurrentPosition(success, error);
-    }
+  function success(position) {
+    
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    
+    getCityName(latitude, longitude);
+
 
   }
 
-  getUserLocation (function(latitude){
-    alert(latitude);
-    document.getElementById("cityName").innerHTML=latitude;
-    //document.getElementById("countryName").innerHTML=longitude;
-  })
+  function error() {
+    var locationError = 'Unable to retrieve your location';
+    console.log(locationError);
+  }
+
+  if(!navigator.geolocation) {
+    var unsupportedError = 'Geolocation is not supported by your browser';
+    console.log(unsupportedError);
+  } else {
+    //status.textContent = 'Locating…';
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
 
 }
 
-document.addEventListener('DOMContentLoaded', test);
+
+document.addEventListener('DOMContentLoaded', getWeatherCurrentLocation);
