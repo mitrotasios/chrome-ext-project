@@ -12,6 +12,6 @@
         "default_title": "Look up the weather."
     },
     "permissions": [
-        "activeTab"
+        "geolocation"
     ]    
 }
