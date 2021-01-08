@@ -22,7 +22,7 @@ function getWeatherCurrentLocation() {
 
   function getCityName(latitude, longitude) {
 
-    const KEY = 'AIzaSyCl8xuKwal-sSnAXAvGzjlhfG--HT_m57Q';
+    const KEY = '<KEY>';
     url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${KEY}`;
     // GET Request.
     fetch(url)
