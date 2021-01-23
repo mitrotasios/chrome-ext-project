@@ -103,7 +103,7 @@ function getWeatherCurrentLocation() {
     console.log(cityName);
     
     /*
-    const KEY = '563492ad6f9170000100000172dbe915a2bc4ce294d3e5fb719fdc14';
+    const KEY = '';
 
     fetch("https://api.pexels.com/v1/search?query=London", {
       headers: {
@@ -115,7 +115,7 @@ function getWeatherCurrentLocation() {
     .catch(err => console.log('Request Failed', err)); // Catch errors
     */
     
-    const KEY = 'I9VNwLcFWIQxa01qSiFLulyZf3B8vpzSOFQFa3M_v9w';
+    const KEY = '';
     const url = `https://api.unsplash.com/photos/random/?query=${cityName}&client_id=${KEY}`;
 
     // GET Request.
@@ -135,7 +135,7 @@ function getWeatherCurrentLocation() {
   }
 
   function fetchLocation(latitude, longitude) {
-    const KEY = 'AIzaSyCl8xuKwal-sSnAXAvGzjlhfG--HT_m57Q';
+    const KEY = '';
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${KEY}`;
 
     // GET Request.
@@ -165,7 +165,7 @@ function getWeatherCurrentLocation() {
   }
 
   function fetchWeather(lat, lon) {
-    const KEY = 'bea7fbb8ded1b3f8c08fd623c25069cb';
+    const KEY = '';
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${KEY}&units=metric`;
 
     // GET Request.
