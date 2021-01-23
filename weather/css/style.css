@@ -54,7 +54,12 @@ html {
     font-size: 10px;
 }
 
-.degrees-small {
+.degrees-small-max {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.degrees-small-min {
     font-size: 10px;
 }
 
@@ -100,12 +105,6 @@ html {
     margin-top: 5px;
 }
 
-.carousel-background {
-    height: 100%;
-    width: 100%;
-    background-color: red;
-}
-
 #test {
     border: 1px solid black
 }
@@ -131,7 +130,7 @@ html {
     width: 100%;
     padding-left: 0px;
     padding-right: 0px;
-    background-color: rgba(70, 165, 255, 0.7);
+    background-color: rgba(70, 165, 255, 0.8);
   }
 
 #full {
