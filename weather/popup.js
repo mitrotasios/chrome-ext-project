@@ -17,117 +17,102 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById("countryName").innerHTML=lng;
 });
 */
-  
-function getWeatherCurrentLocation() {
 
-  function mapWeatherIcons(currentDesc) {
+function mapWeatherIcons(currentDesc) {
     var l_img_url;
     var sm_img_url;
     switch(currentDesc) {
-      case "Thunderstorm":
+        case "Thunderstorm":
         l_img_url = "../imgs/thunderstorm-grey.png";
         sm_img_url = "../imgs/thunderstorm-white.png";
         break;
-      case "Drizzle":
+        case "Drizzle":
         l_img_url = "../imgs/drizzle-grey.png";
         sm_img_url = "../imgs/drizzle-white.png";
         break;
-      case "Rain":
+        case "Rain":
         l_img_url = "../imgs/rain-grey.png";
         sm_img_url = "../imgs/rain-white.png";
         break;
-      case "Snow":
+        case "Snow":
         l_img_url = "../imgs/snow-grey.png";
         sm_img_url = "../imgs/snow-white.png";
         break;
-      case "Clear":
+        case "Clear":
         l_img_url = "../imgs/clear-sky-grey.png";
         sm_img_url = "../imgs/clear-sky-white.png";
         break;
-      case "Clouds":
+        case "Clouds":
         l_img_url = "../imgs/clouds-grey.png";
         sm_img_url = "../imgs/clouds-white.png";
         break;
-      case "Snow":
+        case "Snow":
         l_img_url = "../imgs/snow-grey.png";
         sm_img_url = "../imgs/snow-white.png";
         break;
-      // Mist
-      case "Mist":
+        // Mist
+        case "Mist":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Smoke":
+        case "Smoke":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Haze":
+        case "Haze":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Dust":
+        case "Dust":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Fog":
+        case "Fog":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Sand":
+        case "Sand":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Dust":
+        case "Dust":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Ash":
+        case "Ash":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Squall":
+        case "Squall":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
-      case "Tornado":
+        case "Tornado":
         l_img_url = "../imgs/mist-grey.png";
         sm_img_url = "../imgs/mist-white.png";
         break;
     }
     var img_urls = [l_img_url, sm_img_url];
     return img_urls;
-  }
+}
 
-  function setBackground(cityName) {
-    var cityName = cityName.replace(/ /g,"-");
-    console.log(cityName);
-    
+function setBackground(cityName) {
+    var cityName = cityName.replace(/ /g," ");
+    console.log("CityName", cityName);
+
     const KEY = '';
 
-    fetch("https://api.pexels.com/v1/search?query=London&per_page=10", {
-      headers: {
-      Authorization: KEY
-      }
+    fetch(`https://api.pexels.com/v1/search?query=${cityName}&per_page=10`, {
+        headers: {
+        Authorization: KEY
+        }
     })
     .then(response => response.json())  // convert to json
     .then(json => insertImage(json))    //print data to console
     .catch(err => console.log('Request Failed', err)); // Catch errors
-    
-    
-    /*
-    const KEY = '';
-    const url = `https://api.unsplash.com/photos/random/?query=${cityName}&client_id=${KEY}`;
+}
 
-    // GET Request.
-    fetch(url)
-    // Handle success
-    .then(response => response.json())  // convert to json
-    .then(json => insertImage(json))    //print data to console
-    .catch(err => console.log('Request Failed', err)); // Catch errors
-    */
-  }
-
-  function insertImage(json) {
+function insertImage(json) {
     console.log("Pexels", json);
     console.log("Done");
 
@@ -135,9 +120,10 @@ function getWeatherCurrentLocation() {
     bg_img_url = json.photos[i].src.large;
 
     document.getElementById("bg-img").src=bg_img_url;
-  }
+}
 
-  function fetchLocation(latitude, longitude) {
+function fetchLocation(latitude, longitude) {
+    console.log("fetchLocationLatLong", latitude, longitude)
     const KEY = '';
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${KEY}`;
 
@@ -147,27 +133,31 @@ function getWeatherCurrentLocation() {
     .then(response => response.json())  // convert to json
     .then(json => insertLocationName(json))    //print data to console
     .catch(err => console.log('Request Failed', err)); // Catch errors
-  }
+}
 
-  function insertLocationName(json) {
-    part = json.results[0].address_components;
+function insertLocationName(json) {
+    console.log("Reverse Geocoding", json);
+    console.log("cityName before loop", cityName);
+    var part = json.results[0].address_components;
+    console.log("Loop starts");
     for (var i = 0; i<part.length; i++) {
         var current = part[i];
-        if (current.types.includes("postal_town")) {
+        if (current.types.includes("postal_town") || current.types.includes("locality")) {
             var cityName = current.long_name;
         }
         if (part[i].types.includes("country")) {
             var countryName = current.long_name;
         }
     }
-
-    document.getElementById("cityName").innerHTML=localStorage.cityName.toUpperCase();
-    document.getElementById("countryName").innerHTML=localStorage.countryName.toUpperCase();
+    console.log("cityName", cityName);
+    console.log("countryName", countryName);
+    document.getElementById("cityName").innerHTML=cityName.toUpperCase();
+    document.getElementById("countryName").innerHTML=countryName.toUpperCase();
 
     setBackground(cityName);  
-  }
+}
 
-  function fetchWeather(lat, lon) {
+function fetchWeather(lat, lon) {
     const KEY = '';
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${KEY}&units=metric`;
 
@@ -177,15 +167,15 @@ function getWeatherCurrentLocation() {
     .then(response => response.json())  // convert to json
     .then(json => insertWeather(json))    //print data to console
     .catch(err => console.log('Request Failed', err)); // Catch errors
-  }
+}
 
-  function insertCurrent(json) {
+function insertCurrent(json) {
     console.log("Weather", json);
     var currentTemp = String(Math.round(json.current.temp));
     var currentDesc = String(json.current.weather[0].main);
     var currentWind = String(json.current.wind_speed);
     var currentHumidity = String(json.current.humidity);
-    
+
     var img_urls = mapWeatherIcons(currentDesc);
     var sm_img_url = img_urls[1];
 
@@ -223,7 +213,7 @@ function getWeatherCurrentLocation() {
     smHumidityInfo.setAttribute("id", "humidity-icon-text");
 
     document.getElementById("weather-data-degrees").innerHTML=currentTemp.concat('°');
-    
+
     document.getElementById("sm-weather-icon").appendChild(smWeatherIcon);
     document.getElementById("sm-weather-icon").appendChild(smWeatherDesc);
     //document.getElementById("weather-icon-text").innerHTML=currentDesc;
@@ -233,9 +223,9 @@ function getWeatherCurrentLocation() {
 
     document.getElementById("sm-humidity-icon").appendChild(smHumidityIcon);
     document.getElementById("sm-humidity-icon").appendChild(smHumidityInfo);
-  }
+}
 
-  function insertForecast(json) {
+function insertForecast(json) {
     var d = new Date();
     var weekday = new Array(7);
     weekday[0] = "SUN";
@@ -271,13 +261,14 @@ function getWeatherCurrentLocation() {
       document.getElementById("min-day-".concat(String(i+1))).innerHTML=fcMinWeather;
     }
 
-  }
+}
 
-  function insertWeather(json) {
+function insertWeather(json) {
     insertCurrent(json);
     insertForecast(json);
-  }
+}
 
+function getWeatherCurrentLocation() {  
   function success(position) {
     console.log("success");
     console.log("LS",localStorage.lat);
@@ -306,7 +297,6 @@ function getWeatherCurrentLocation() {
     var unsupportedError = 'Geolocation is not supported by your browser';
     console.log(unsupportedError);
   } else {
-
     //status.textContent = 'Locating…';
     console.log("get lat long");
     navigator.geolocation.getCurrentPosition(success, error);
@@ -334,11 +324,11 @@ function onPlaceChanged() {
     document.getElementById('autocomplete').placeholder = 'Enter a place';
   } else {
     //document.getElementById('details').innerHTML = place.name;
-    var lat = place.geometry.location.lat();
-    var lng = place.geometry.location.lng();
-    console.log("Lat", lat);
-    console.log("Lng", lng);
-    console.log("Place", place);
+    var latitude = String(place.geometry.location.lat());
+    var longitude = String(place.geometry.location.lng());
+    console.log("new latlong", typeof latitude);
+    fetchLocation(latitude, longitude);
+    //fetchWeather(latitude, longitude);
   }
 
 }
