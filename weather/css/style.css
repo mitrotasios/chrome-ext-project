@@ -5,6 +5,27 @@ html {
     width: 350px;
 }
 
+input {
+    outline:none;
+    background-color: transparent;
+    border: 0px solid;
+    border-bottom: 1px solid white;
+    color: white;
+    font-family:"Helvetica Neue";    
+}
+
+input:focus {
+    outline:none;
+    background-color: transparent;
+    border: 0px solid;
+    border-bottom: 1px solid white;
+}
+
+input::placeholder { 
+    color: white;
+    opacity: 1;
+}
+
 .city {
     font-family: "Helvetica Neue";
     font-weight: 200;

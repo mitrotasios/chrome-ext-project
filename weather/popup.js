@@ -102,10 +102,9 @@ function getWeatherCurrentLocation() {
     var cityName = cityName.replace(/ /g,"-");
     console.log(cityName);
     
-    /*
     const KEY = '';
 
-    fetch("https://api.pexels.com/v1/search?query=London", {
+    fetch("https://api.pexels.com/v1/search?query=London&per_page=10", {
       headers: {
       Authorization: KEY
       }
@@ -113,8 +112,9 @@ function getWeatherCurrentLocation() {
     .then(response => response.json())  // convert to json
     .then(json => insertImage(json))    //print data to console
     .catch(err => console.log('Request Failed', err)); // Catch errors
-    */
     
+    
+    /*
     const KEY = '';
     const url = `https://api.unsplash.com/photos/random/?query=${cityName}&client_id=${KEY}`;
 
@@ -124,12 +124,15 @@ function getWeatherCurrentLocation() {
     .then(response => response.json())  // convert to json
     .then(json => insertImage(json))    //print data to console
     .catch(err => console.log('Request Failed', err)); // Catch errors
+    */
   }
 
   function insertImage(json) {
     console.log("Pexels", json);
     console.log("Done");
-    bg_img_url = json.urls.full;
+
+    let i = Math.floor(Math.random() * 10);
+    bg_img_url = json.photos[i].src.large;
 
     document.getElementById("bg-img").src=bg_img_url;
   }
@@ -149,17 +152,17 @@ function getWeatherCurrentLocation() {
   function insertLocationName(json) {
     part = json.results[0].address_components;
     for (var i = 0; i<part.length; i++) {
-      var current = part[i];
-      if (current.types.includes("postal_town")) {
-        var cityName = current.long_name;
-      }
-      if (part[i].types.includes("country")) {
-        var countryName = current.long_name;
-      }
+        var current = part[i];
+        if (current.types.includes("postal_town")) {
+            var cityName = current.long_name;
+        }
+        if (part[i].types.includes("country")) {
+            var countryName = current.long_name;
+        }
     }
-    document.getElementById("cityName").innerHTML=cityName.toUpperCase();
-    document.getElementById("countryName").innerHTML=countryName.toUpperCase();
-    console.log(cityName);
+
+    document.getElementById("cityName").innerHTML=localStorage.cityName.toUpperCase();
+    document.getElementById("countryName").innerHTML=localStorage.countryName.toUpperCase();
 
     setBackground(cityName);  
   }
@@ -177,6 +180,7 @@ function getWeatherCurrentLocation() {
   }
 
   function insertCurrent(json) {
+    console.log("Weather", json);
     var currentTemp = String(Math.round(json.current.temp));
     var currentDesc = String(json.current.weather[0].main);
     var currentWind = String(json.current.wind_speed);
@@ -242,8 +246,6 @@ function getWeatherCurrentLocation() {
     weekday[5] = "FRI";
     weekday[6] = "SAT";
 
-    var n = d.getDay();
-
     var hashMap = new Array(5);
     for(var i=0; i<hashMap.length; i++) {
       var tempDate = new Date();
@@ -278,8 +280,15 @@ function getWeatherCurrentLocation() {
 
   function success(position) {
     console.log("success");
+    console.log("LS",localStorage.lat);
+    console.log("LS",localStorage.lon);
+    var latitude;
+    var longitude;
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
+
+    latitude = localStorage.lat;
+    longitude = localStorage.lon;
     console.log(latitude);
     console.log(longitude);
     fetchLocation(latitude, longitude);
@@ -305,5 +314,33 @@ function getWeatherCurrentLocation() {
 
 }
 
+let autocomplete;
+function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('autocomplete'),
+        {
+            //types: [],
+            //componentRestrictions: {'country': ['AU']},
+            //fields: ['place_id', 'geometry', 'name']
+        });
+
+    autocomplete.addListener('place_changed', onPlaceChanged);
+}
+
+function onPlaceChanged() {
+  var place = autocomplete.getPlace();
+
+  if (!place.geometry) {
+    document.getElementById('autocomplete').placeholder = 'Enter a place';
+  } else {
+    //document.getElementById('details').innerHTML = place.name;
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
+    console.log("Lat", lat);
+    console.log("Lng", lng);
+    console.log("Place", place);
+  }
+
+}
 
 document.addEventListener('DOMContentLoaded', getWeatherCurrentLocation);
