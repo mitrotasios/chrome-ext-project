@@ -1,23 +1,4 @@
 
-/*
-document.addEventListener("DOMContentLoaded", function() {
-  chrome.extension.getBackgroundPage().backgroundFunction();
-});
-*/
-
-/*
-document.addEventListener('DOMContentLoaded', function () {
-
-  chrome.extension.getBackgroundPage().getLocation();
-
-  
-  var cityName = "LOS ANGELES";
-  var countryName = "USA";
-  document.getElementById("cityName").innerHTML=lat;
-  document.getElementById("countryName").innerHTML=lng;
-});
-*/
-
 function mapWeatherIcons(currentDesc) {
     var l_img_url;
     var sm_img_url;
@@ -238,10 +219,8 @@ function getWeatherCurrentLocation() {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 
-    latitude = localStorage.lat;
-    longitude = localStorage.lon;
-    console.log(latitude);
-    console.log(longitude);
+    console.log("lat", latitude);
+    console.log("long", longitude);
     fetchLocation(latitude, longitude);
     fetchWeather(latitude, longitude);
   }
