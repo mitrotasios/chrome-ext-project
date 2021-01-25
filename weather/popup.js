@@ -100,7 +100,7 @@ function setBackground(cityName) {
     var cityName = cityName.replace(/ /g," ");
     console.log("CityName", cityName);
 
-    const KEY = '';
+    const KEY = '563492ad6f9170000100000172dbe915a2bc4ce294d3e5fb719fdc14';
 
     fetch(`https://api.pexels.com/v1/search?query=${cityName}&per_page=10`, {
         headers: {
@@ -124,7 +124,7 @@ function insertImage(json) {
 
 function fetchLocation(latitude, longitude) {
     console.log("fetchLocationLatLong", latitude, longitude)
-    const KEY = '';
+    const KEY = 'AIzaSyCl8xuKwal-sSnAXAvGzjlhfG--HT_m57Q';
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${KEY}`;
 
     // GET Request.
@@ -138,7 +138,7 @@ function fetchLocation(latitude, longitude) {
 function insertLocationName(json) {
     console.log("Reverse Geocoding", json);
     console.log("cityName before loop", cityName);
-    var part = json.results[0].address_components;
+    var part = json.results[3].address_components;
     console.log("Loop starts");
     for (var i = 0; i<part.length; i++) {
         var current = part[i];
@@ -158,7 +158,7 @@ function insertLocationName(json) {
 }
 
 function fetchWeather(lat, lon) {
-    const KEY = '';
+    const KEY = 'bea7fbb8ded1b3f8c08fd623c25069cb';
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${KEY}&units=metric`;
 
     // GET Request.
@@ -179,50 +179,16 @@ function insertCurrent(json) {
     var img_urls = mapWeatherIcons(currentDesc);
     var sm_img_url = img_urls[1];
 
-    var smWeatherIcon = document.createElement("img");
-    smWeatherIcon.src = sm_img_url;
-    smWeatherIcon.setAttribute("class", "icon-image");                   
-    smWeatherIcon.setAttribute("height", "15");
-    smWeatherIcon.setAttribute("width", "15");
+    document.getElementById("weather-icon-img").src=sm_img_url;
+    document.getElementById("weather-icon-text").innerHTML=currentDesc;
 
-    var smWeatherDesc = document.createElement("span");
-    smWeatherDesc.innerHTML = currentDesc;
-    smWeatherDesc.setAttribute("class", "icon-text");
-    smWeatherDesc.setAttribute("id", "weather-icon-text");                   
+    document.getElementById("wind-icon-img").src="../imgs/wind-white.png";
+    document.getElementById("wind-icon-text").innerHTML=currentWind.concat(' mhp');
 
-    var smWindIcon = document.createElement("img");
-    smWindIcon.src = "../imgs/wind-white.png";
-    smWindIcon.setAttribute("class", "icon-image");                   
-    smWindIcon.setAttribute("height", "15");
-    smWindIcon.setAttribute("width", "15");
-
-    var smWindInfo = document.createElement("span");
-    smWindInfo.innerHTML = currentWind.concat(' mhp');
-    smWindInfo.setAttribute("class", "icon-text");
-    smWindInfo.setAttribute("id", "wind-icon-text");
-
-    var smHumidityIcon = document.createElement("img");
-    smHumidityIcon.src = "../imgs/humidity-white.png";
-    smHumidityIcon.setAttribute("class", "icon-image");                   
-    smHumidityIcon.setAttribute("height", "15");
-    smHumidityIcon.setAttribute("width", "15");
-
-    var smHumidityInfo = document.createElement("span");
-    smHumidityInfo.innerHTML = currentHumidity.concat(' %');
-    smHumidityInfo.setAttribute("class", "icon-text");
-    smHumidityInfo.setAttribute("id", "humidity-icon-text");
+    document.getElementById("humidity-icon-img").src="../imgs/humidity-white.png";
+    document.getElementById("humidity-icon-text").innerHTML=currentHumidity.concat(' %');
 
     document.getElementById("weather-data-degrees").innerHTML=currentTemp.concat('°');
-
-    document.getElementById("sm-weather-icon").appendChild(smWeatherIcon);
-    document.getElementById("sm-weather-icon").appendChild(smWeatherDesc);
-    //document.getElementById("weather-icon-text").innerHTML=currentDesc;
-
-    document.getElementById("sm-wind-icon").appendChild(smWindIcon);
-    document.getElementById("sm-wind-icon").appendChild(smWindInfo);
-
-    document.getElementById("sm-humidity-icon").appendChild(smHumidityIcon);
-    document.getElementById("sm-humidity-icon").appendChild(smHumidityInfo);
 }
 
 function insertForecast(json) {
@@ -249,14 +215,8 @@ function insertForecast(json) {
       var img_urls = mapWeatherIcons(fcWeatherDesc);
       var l_img_url = img_urls[0];
       
-      var lWeatherIcon = document.createElement("img");
-      lWeatherIcon.src = l_img_url;
-      lWeatherIcon.setAttribute("class", "center-block");                   
-      lWeatherIcon.setAttribute("height", "25");
-      lWeatherIcon.setAttribute("width", "25");
-
       document.getElementById("name-day-".concat(String(i+1))).innerHTML=dayName;
-      document.getElementById("img-day-".concat(String(i+1))).appendChild(lWeatherIcon);
+      document.getElementById("img-day-".concat(String(i+1))).src=l_img_url;
       document.getElementById("max-day-".concat(String(i+1))).innerHTML=fcMaxWeather;
       document.getElementById("min-day-".concat(String(i+1))).innerHTML=fcMinWeather;
     }
@@ -328,7 +288,7 @@ function onPlaceChanged() {
     var longitude = String(place.geometry.location.lng());
     console.log("new latlong", typeof latitude);
     fetchLocation(latitude, longitude);
-    //fetchWeather(latitude, longitude);
+    fetchWeather(latitude, longitude);
   }
 
 }
