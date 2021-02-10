@@ -5,6 +5,10 @@ html {
     width: 350px;
 }
 
+body {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
 input {
     outline:none;
     background-color: transparent;
@@ -27,23 +31,13 @@ input::placeholder {
 }
 
 .city {
-    font-family: "Helvetica Neue";
-    font-weight: 200;
-    src: url(helveticaneue-regular.woff);
+    /*font-family: "Helvetica Neue";
+    src: url(helveticaneue-regular.woff);*/
+    font-weight: 200;    
     font-size: 15px;
     color: white;
     padding-top: 20px;
 }
-
-/*
-.row {
-    border: 1px solid black;
-}
-
-.col {
-    border: 1px solid green
-}
-*/
 
 .center-block {
     margin-left:auto;
@@ -111,7 +105,7 @@ input::placeholder {
 }
 
 .icon-text {
-    font-family: "Helvetica Neue";
+    /*font-family: "Helvetica Neue";*/
     font-weight: 300;
     src: url(helveticaneue-regular.woff);
     font-size: 15px;
@@ -135,9 +129,9 @@ input::placeholder {
 }
 
 #weather-data-degrees {
-    font-family: "Helvetica Neue";
+    /*font-family: "Helvetica Neue";    
+    src: url(helveticaneue-regular.woff);*/
     font-weight: 200;
-    src: url(helveticaneue-regular.woff);
     font-size: 85px;
     color: white;
 }
