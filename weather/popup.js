@@ -236,7 +236,6 @@ function getWeatherCurrentLocation() {
     var unsupportedError = 'Geolocation is not supported by your browser';
     console.log(unsupportedError);
   } else {
-    //status.textContent = 'Locating…';
     console.log("get lat long");
     navigator.geolocation.getCurrentPosition(success, error);
   }
@@ -262,7 +261,6 @@ function onPlaceChanged() {
   if (!place.geometry) {
     document.getElementById('autocomplete').placeholder = 'Enter a place';
   } else {
-    //document.getElementById('details').innerHTML = place.name;
     var latitude = String(place.geometry.location.lat());
     var longitude = String(place.geometry.location.lng());
     console.log("new latlong", typeof latitude);
