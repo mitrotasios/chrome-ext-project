@@ -9,5 +9,5 @@ Features:
 * Search for any location and get real-time search suggestions 
 * Displays a different background picture of the corresponding city 
 
-![](https://github.com/mitrotasios/chrome-ext-project/imgs/demo1.png)
-![](https://github.com/mitrotasios/chrome-ext-project/imgs/demo2.png)
+![alt text](https://github.com/mitrotasios/chrome-ext-project/imgs/demo1.png)
+![alt text](https://github.com/mitrotasios/chrome-ext-project/imgs/demo2.png)
