@@ -9,3 +9,6 @@ Features:
 * Search for any location and get real-time search suggestions 
 * Displays a different background picture of the corresponding city 
 
+![](https://github.com/mitrotasios/imgs/demo1.png)
+![](https://github.com/mitrotasios/imgs/demo2.png)
+
